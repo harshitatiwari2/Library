@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="shadow p-3 mb-5 bg-body-tertiary rounded"><h1>Library</h1></div>
-    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal">
+    <button type="button" class="btn btn-secondary addbook" data-bs-toggle="modal" data-bs-target="#myModal">
       <h3>+ Add Book</h3>
     </button>
     
@@ -35,7 +35,7 @@
                   <input type="number" class="form-control" id="pages" name ="page">
                 </div>
               <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1" name="check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1" name="check" checked>
                 <label class="form-check-label" for="exampleCheck1">Have you read the book?</label>
               </div>
               <button type="submit" class="btn btn-primary" id="submitbutton">Submit</button>
@@ -47,7 +47,7 @@
     </div>
     
     
-    <div class="parent-element">
+    <div class="parent-element grid">
       
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

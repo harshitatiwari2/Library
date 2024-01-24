@@ -12,6 +12,7 @@ body {
     padding: 4%;
     margin: 5%;
     border-radius: 5%;
+    flex: 0 0 20%;
 }
 
 .card-header {
@@ -20,4 +21,27 @@ body {
 
 .card-body {
     background-color: bisque;
+}
+
+.card-bodyunread {
+    background-color: palevioletred;
+}
+
+
+.parent-element {
+
+    display: flex;
+    flex-wrap: wrap
+}
+
+.btn {
+    margin : auto 1%;
+}   
+
+.btn-primary {
+    margin: 5px;
+}
+
+.btn-warning {
+    margin: 5px;
 }

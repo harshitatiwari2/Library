@@ -5,22 +5,20 @@ document.addEventListener('DOMContentLoaded', function() {
   var myModal = new bootstrap.Modal(document.getElementById('myModal'));
 });
 
-
-
-function Book(title, author, page,read) {
+function Book(title, author, page,bool, index = 0) {
   this.title = title;
   this.author = author;
   this.page = page;
-  this.read = read;
+  this.read = bool;
 }
 
 function addBookToLibrary(book) {
   myLibrary.push(book);
+  book.index=  myLibrary.length - 1;
 }
 
 const submitButton = form.querySelector('#submitbutton');
 
-// Adding event listener to the submit button
 submitButton.addEventListener('click', (event) => {
   event.preventDefault(); // Prevent form submission behavior
 
@@ -32,62 +30,69 @@ submitButton.addEventListener('click', (event) => {
   const book = new Book(title, author, page, read);
   addBookToLibrary(book);
 
-  // Clear form inputs
   form.title.value = '';
   form.author.value = '';
   form.page.value = '';
   form.check.checked = false;
-
-  console.log('Form submitted');
-  console.log(myLibrary);
+  document.querySelector('.addbook').click();
   displayLibrary(book);
-
+    
 });
 
 
 function displayLibrary(book) {
-   
-    createCard(book.title,book.author,book.page);
-
+    createCard(book);
 }
 
-function createCard(title, auth, pag) {
-      // Create the card container div
+function createCard(book) {
+      
     const cardContainer = document.createElement('div');
     cardContainer.classList.add('card');
 
-    // Create the card header element
+  
     const cardHeader = document.createElement('h5');
     cardHeader.classList.add('card-header');
-    cardHeader.textContent = title;
+    cardHeader.textContent = book.title;
 
-    // Create the card body div
     const cardBody = document.createElement('div');
     cardBody.classList.add('card-body');
 
-    // Create the card title element
+
     const cardTitle = document.createElement('h5');
     cardTitle.classList.add('card-title');
-    cardTitle.textContent = auth;
+    cardTitle.textContent = book.author;
 
-    // Create the card text element
     const cardText = document.createElement('p');
     cardText.classList.add('card-text');
-    cardText.textContent = `The book contains ${pag} pages`;
+    cardText.textContent = `The book contains ${book.page} pages`;
 
-    // Create the primary button element
+
     const primaryButton = document.createElement('a');
-    primaryButton.classList.add('btn', 'btn-primary');
-    primaryButton.href = '#';
-    primaryButton.textContent = 'Read toggle';
-
-    // Create the warning button element
+    
+    if (book.read) {
+      primaryButton.classList.add('btn', 'btn-success');
+    } else {
+      primaryButton.classList.add('btn', 'btn-danger');
+    }
+    primaryButton.textContent = `Read status: ${book.read}`;
+    primaryButton.onclick =  ()=>{
+        book.update_read_status();
+        primaryButton.textContent = `Read status: ${book.read}`;
+        primaryButton.classList.toggle('btn-success');
+        primaryButton.classList.toggle( 'btn-danger');
+    };
+  
     const warningButton = document.createElement('a');
-    warningButton.classList.add('btn', 'btn-warning');
+    warningButton.classList.add('btn', 'btn-warning',);
     warningButton.href = '#';
     warningButton.textContent = 'Delete';
-
-    // Append the elements to construct the card structure
+    warningButton.onclick=  ()=>{
+        const foundId= myLibrary.findIndex((b) => b === book);
+        myLibrary.splice(foundId, 1);
+        cardContainer.remove();
+        console.log("-------", myLibrary);
+      };
+    
     cardBody.appendChild(cardTitle);
     cardBody.appendChild(cardText);
     cardBody.appendChild(primaryButton);
@@ -96,8 +101,11 @@ function createCard(title, auth, pag) {
     cardContainer.appendChild(cardHeader);
     cardContainer.appendChild(cardBody);
 
-    // Append the card container to the desired parent element
     const parentElement = document.querySelector('.parent-element');
     parentElement.appendChild(cardContainer);
 }
+
+Book.prototype.update_read_status = function () {
+  this.read = !this.read;
+};
 
